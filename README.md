@@ -20,8 +20,8 @@ Built with **Node.js**, **TypeScript**, **Express**, and **Prisma**, following *
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/your-repo/inventory-sync-api.git
-cd inventory-sync-api
+git clone https://github.com/your-repo/bdo_node_ts.git
+cd bdo_node_ts
 ```
 
 ### 2. Environment variables
