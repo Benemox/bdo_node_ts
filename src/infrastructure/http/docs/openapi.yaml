@@ -1,0 +1,96 @@
+openapi: 3.0.0
+info:
+  title: Inventory Sync API
+  version: 1.0.0
+  description: API for synchronizing and retrieving inventory data.
+
+servers:
+  - url: http://localhost:3000
+    description: Local server
+
+paths:
+  /inventory:
+    get:
+      summary: Get all inventory items
+      tags:
+        - Inventory
+      responses:
+        '200':
+          description: List of inventory items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Inventory'
+
+  /inventory/{sku}:
+    get:
+      summary: Get inventory by SKU
+      tags:
+        - Inventory
+      parameters:
+        - in: path
+          name: sku
+          required: true
+          schema:
+            type: string
+          description: SKU of the product
+      responses:
+        '200':
+          description: Inventory item found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Inventory'
+        '404':
+          description: Inventory item not found
+
+  /inventory/sync-quantity:
+    post:
+      summary: Sync the quantity of an inventory item
+      tags:
+        - Inventory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - sku
+                - quantity
+              properties:
+                sku:
+                  type: string
+                  example: "ABC123"
+                quantity:
+                  type: integer
+                  example: 50
+                location:
+                  type: string
+                  example: "default"
+      responses:
+        '204':
+          description: Inventory quantity updated
+        '400':
+          description: Invalid payload
+
+components:
+  schemas:
+    Inventory:
+      type: object
+      properties:
+        sku:
+          type: string
+          example: "ABC123"
+        quantity:
+          type: integer
+          example: 50
+        location:
+          type: string
+          example: "default"
+        lastUpdated:
+          type: string
+          format: date-time
+          example: "2025-08-13T10:00:00.000Z"
